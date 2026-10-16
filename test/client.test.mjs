@@ -12,7 +12,7 @@ function harness() {
   const React = {
     useSyncExternalStore: (_subscribe, snapshot) => snapshot(),
     useMemo: fn => fn(),
-    createElement: (type, props) => ({ type, props, key: props?.key }),
+    createElement: (type, props, ...children) => ({ type, props: { ...props, ...(children.length ? { children } : {}) }, key: props?.key }),
     isValidElement: node => !!node && typeof node === 'object' && 'type' in node,
     cloneElement: (node, props, ...children) => ({ ...node, props: { ...node.props, ...props, ...(children.length ? { children: children[0] } : {}) } }),
   };
@@ -63,10 +63,10 @@ test('wrapper preserves entry contract and restores original component on dispos
   assert.notEqual(entry.component, WorkspaceBrowser);
   assert.equal(entry.store, store);
   const state = { items: [{ id: 'old', sessionIds: ['a'] }, { id: 'new', sessionIds: ['b'] }] };
-  const props = { useSessions: fn => fn({ byId: { a: { updatedAt: 1 }, b: { updatedAt: 2 } } }), useWorkspaces: fn => fn(state) };
-  assert.deepEqual(entry.component(props).map(x => x.id), ['old', 'new']);
+  const props = { useSessionStatus: fn => fn(new Map()), useSessions: fn => fn({ byId: { a: { updatedAt: 1 }, b: { updatedAt: 2 } } }), useWorkspaces: fn => fn(state) };
+  assert.deepEqual(entry.component(props).props.children[1].map(x => x.id), ['old', 'new']);
   plugin.menuFor(() => ({ type: 'menu', props: { items: [{ id: 'archived-filter-separator' }], selectedIds: [], onClose() {} } }))({}).props.onSelect('dsh-workspace-sorter.last-used');
-  assert.deepEqual(entry.component(props).map(x => x.id), ['new', 'old']);
+  assert.deepEqual(entry.component(props).props.children[1].map(x => x.id), ['new', 'old']);
   dispose();
   assert.equal(entry.component, WorkspaceBrowser);
 });

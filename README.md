@@ -41,6 +41,21 @@ dsh plugin --profile web remove dsh-workspace-sorter
 Restart when required and refresh. No host order needs restoring. Only the
 browser preference remains.
 
+## Running workspace indicator
+
+Workspace folder icons glow **green** while any member session is running,
+even when the workspace is collapsed. A selected-but-idle session does not
+trigger the glow. Running child agents listed in a member session's subagent
+catalog also count. The indicator follows DSH's live session-status store and
+clears when the work stops. It works with either workspace-order choice.
+
+The glow is steady (no flashing animation). Only the folder glyph receives
+color and shadow; native row selection, labels, and session indicators remain
+unchanged. It does not imply a workspace has merely been selected. The
+implementation and status aggregation are unit-tested; the full running →
+idle transition still needs a real-agent browser test. The sidebar smoke suite
+passes with the indicator wrapper installed.
+
 ## The Workspace order menu
 
 | Option | Effect |

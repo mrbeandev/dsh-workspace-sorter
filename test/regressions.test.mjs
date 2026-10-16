@@ -2,6 +2,20 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createClientPlugin } from '../client/index.mjs';
 
+test('workspace glow follows running status, not selection, including child agents', () => {
+  const plugin = createClientPlugin(() => ({}));
+  const items = [{ workspaceId: 'selected', sessionIds: ['idle'] }, { workspaceId: 'running', sessionIds: ['work'] }, { workspaceId: 'parent', sessionIds: ['p'] }];
+  const list = { byId: { idle: { retainedBy: { mainView: 1 }, running: false }, work: { running: true } }, projectionsBySession: { p: { values: { subagentCatalog: [{ id: 'child' }] } } } };
+  assert.deepEqual(plugin.runningWorkspaces(items, list, new Map([['child', { running: true }]])), ['running', 'parent']);
+  assert.deepEqual(plugin.runningWorkspaces(items, list, new Map([['work', { running: false }]])), []);
+  const css = plugin.glowCss(['running']);
+  assert.ok(css.includes('[data-row-key="workspace:running"] > span:first-child'));
+  assert.ok(css.includes('drop-shadow'));
+  assert.equal(css.includes('aria-expanded'), false); // collapsed and expanded
+  assert.equal(plugin.glowCss([]), '');
+  assert.equal(plugin.glowCss(['bad"}']).includes('bad"}'), false);
+});
+
 test('deferred native registration does not fail boot and installs when ready', () => {
   const listeners = new Set(), effects = [];
   globalThis.window = { addEventListener() {}, removeEventListener() {} };

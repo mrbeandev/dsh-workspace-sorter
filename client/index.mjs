@@ -25,6 +25,19 @@ export function createClientPlugin(require) {
       return typeof value === 'number' && Number.isFinite(value) ? Math.max(latest, value) : latest;
     }, 0) })).sort((a, b) => b.time - a.time || a.index - b.index).map(row => row.item);
   }
+  function runningWorkspaces(items, list, statuses) {
+    const running = id => (statuses.get(id)?.running ?? list.byId[id]?.running) === true;
+    return items.filter(item => item.sessionIds.some(id => running(id) ||
+      (list.projectionsBySession?.[id]?.values?.subagentCatalog ?? []).some(child => running(child.id))
+    )).map(item => item.workspaceId);
+  }
+  function glowCss(ids) {
+    // Encode every non-identifier character as a CSS escape, never interpolate
+    // workspace names or session text into styles.
+    const escape = value => String(value).replace(/[^a-zA-Z0-9_-]/g, ch => `\\${ch.codePointAt(0).toString(16)} `);
+    return ids.map(id => `[data-dsh-workspace-sorter] [data-row-key="workspace:${escape(id)}"] > span:first-child`).join(',') +
+      (ids.length ? '{color:#4ade80!important;filter:drop-shadow(0 0 3px #22c55e) drop-shadow(0 0 7px #22c55e80)}' : '');
+  }
   const menus = new WeakMap();
   function menuFor(Original) {
     if (menus.has(Original)) return menus.get(Original);
@@ -87,6 +100,9 @@ export function createClientPlugin(require) {
     function WorkspaceSorter(props) {
       const selected = React.useSyncExternalStore(subscribe, snapshot, snapshot);
       const sessions = props.useSessions(state => state);
+      const statuses = props.useSessionStatus(state => state);
+      const items = props.useWorkspaces(state => state.items);
+      const activeIds = runningWorkspaces(items, sessions, statuses);
       // Derive only the items projection, leaving phase, archive, pin and all
       // other workspace selectors untouched. Memoize to preserve hook snapshots.
       const project = React.useMemo(() => {
@@ -103,7 +119,10 @@ export function createClientPlugin(require) {
       const tree = Original({ ...props, useWorkspaces,
         insertWorkspaceBefore: selected === 'last-used' ? async () => {} : props.insertWorkspaceBefore,
       });
-      return transform(tree);
+      // display:contents keeps the native flex/scroll layout unchanged. Only
+      // folder-icon spans under running workspace rows receive the steady glow.
+      return React.createElement('div', { 'data-dsh-workspace-sorter': '', style: { display: 'contents' } },
+        React.createElement('style', { 'data-dsh-workspace-sorter-style': '' }, glowCss(activeIds)), transform(tree));
     }
     // Preserve the original entry's store, injected services, locale, child-slot
     // authorization, and identity. Registering a second owner of its children
@@ -117,5 +136,5 @@ export function createClientPlugin(require) {
       window.removeEventListener(EVENT, refresh);
     });
   }
-  return { inject: ['slots'], apply, sortItems, compatible, menuFor, transform };
+  return { inject: ['slots'], apply, sortItems, compatible, menuFor, transform, runningWorkspaces, glowCss };
 }

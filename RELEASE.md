@@ -6,6 +6,17 @@ Local tests on 2026-10-16 used DSH 0.2.0-rc.2, Node 24, and real headless
 Google Chrome/CDP in a disposable DSH_HOME. The primary profile and port 3080
 were not modified.
 
+### Added: running workspace folder glow
+
+Folder glyphs glow green whenever a member session or catalogued child agent
+is running. The live status store overrides cached list running flags. Selected
+idle sessions do not glow; the CSS selector is independent of expansion state.
+No DOM mutation or host write is used. Scoped steady glow is rendered beside
+the native tree. Tests cover status precedence, child activity, idle selection,
+collapsed-compatible selectors and CSS escaping. The 10/10 browser sidebar
+smoke suite was rerun successfully after this addition; real-agent running →
+idle visual transition testing remains pending.
+
 ### Findings and fixes
 
 - Exact registry **0.1.0 installed successfully but failed GUI boot** because
