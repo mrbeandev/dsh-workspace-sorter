@@ -22,7 +22,7 @@ choice without overwriting the host's saved manual workspace order.
 
 ## Install from npm
 
-The owner has published `0.1.1`. This checkout prepares **0.1.2**, which includes the running-workspace folder glow. Version 0.1.2 has not yet been published. Avoid 0.1.0, which failed the isolated GUI boot test.
+This checkout prepares **0.1.3**, including the running-workspace folder glow and collapsed-workspace name quick-open. Version 0.1.3 has not been published by this change. Avoid 0.1.0, which failed the isolated GUI boot test.
 
 ```bash
 dsh plugin --profile web add dsh-workspace-sorter
@@ -75,7 +75,7 @@ passes with the indicator wrapper installed.
 
 The native session-order choice remains independent. See the limitations below.
 
-> **0.1.2 candidate — not yet published; 0.1.1 published by the owner.** Published 0.1.0 failed real-browser activation in a clean DSH profile; avoid enabling it. The corrected candidate passes 10/10 real-browser smoke checks and 4/4 post-uninstall checks on DSH 0.2.0-rc.2. Broader coexistence and interaction testing remains pending. See [RELEASE.md](./RELEASE.md).
+> **0.1.3 candidate — not published by this change.** Published 0.1.0 failed real-browser activation in a clean DSH profile; avoid enabling it. The corrected candidate passes 10/10 real-browser smoke checks and 4/4 post-uninstall checks on DSH 0.2.0-rc.2. Broader coexistence and interaction testing remains pending. See [RELEASE.md](./RELEASE.md).
 
 Independent workspace ordering in the DeepSeek Harness sidebar's existing **View options** popup, below its session-order options.
 

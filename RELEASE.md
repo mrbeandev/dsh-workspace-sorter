@@ -1,9 +1,9 @@
 # Release checklist
 
-## Current candidate: 0.1.2 (not published)
+## Current candidate: 0.1.3 (not published)
 
-The owner reports 0.1.1 is now published. The running-workspace glow is prepared
-as 0.1.2; no npm publication is performed by this version bump. Test results
+Version 0.1.3 prepares collapsed-workspace name quick-open together with the
+running-workspace glow. No npm publication is performed by this version bump. Test results
 below were obtained from the corresponding local candidate before this
 metadata-only bump.
 
