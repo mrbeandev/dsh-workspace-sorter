@@ -1,0 +1,31 @@
+{
+  "name": "dsh-workspace-sorter",
+  "version": "0.1.0",
+  "description": "Independent last-used workspace ordering in the DeepSeek Harness sidebar view-options menu.",
+  "type": "module",
+  "main": "index.mjs",
+  "exports": { ".": "./index.mjs", "./client": "./lib/client.js", "./package.json": "./package.json" },
+  "files": ["index.mjs", "lib/client.js", "cordis.patch.yml", "README.md", "LICENSE"],
+  "engines": { "node": ">=22.19.0" },
+  "license": "MIT",
+  "author": "mrbeandev and contributors",
+  "repository": { "type": "git", "url": "git+https://github.com/mrbeandev/dsh-workspace-sorter.git" },
+  "homepage": "https://github.com/mrbeandev/dsh-workspace-sorter#readme",
+  "bugs": { "url": "https://github.com/mrbeandev/dsh-workspace-sorter/issues" },
+  "publishConfig": { "access": "public" },
+  "keywords": ["dsh", "deepseek-harness", "plugin", "workspace", "sidebar", "sorting"],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "npm run build && npm test && npm pack --dry-run",
+    "prepack": "npm run build && npm test",
+    "prepublishOnly": "npm run check"
+  },
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "platform": "web",
+      "inject": ["@deepseek-ai/dsh-client-ui-workspace"]
+    }
+  }
+}
