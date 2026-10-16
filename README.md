@@ -41,6 +41,16 @@ dsh plugin --profile web remove dsh-workspace-sorter
 Restart when required and refresh. No host order needs restoring. Only the
 browser preference remains.
 
+## Workspace name quick-open
+
+When a workspace is **collapsed**, clicking its **name** expands it and opens
+its latest non-archived session by session update time. Provisional blank
+sessions are skipped; an empty workspace simply expands. Clicking the arrow,
+folder glyph, or empty row area keeps native expand/collapse-only behavior.
+Workspace action buttons are untouched. Clicking the name of an already
+expanded workspace keeps native collapse behavior. Modified clicks do not
+trigger auto-navigation. This does not change the saved session ordering.
+
 ## Running workspace indicator
 
 Workspace folder icons glow **green** while any member session is running,

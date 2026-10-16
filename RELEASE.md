@@ -11,6 +11,18 @@ Local tests on 2026-10-16 used DSH 0.2.0-rc.2, Node 24, and real headless
 Google Chrome/CDP in a disposable DSH_HOME. The primary profile and port 3080
 were not modified.
 
+### Added: collapsed workspace name quick-open
+
+Clicking the name of a collapsed workspace retains native expansion and then
+opens its latest available non-archived, non-provisional session. Arrow and
+other row-area clicks remain expansion-only. Tests cover recency selection,
+archives, blanks, modified clicks, title/arrow/action targeting and already
+expanded rows. An isolated browser check confirmed arrow-only expansion kept
+the selected session and a collapsed-name click expanded and selected the
+workspace's session. Initial synthetic navigation fixtures lacked a turn-end
+reason and produced native feed errors; the reusable fixture now includes a
+complete interrupted turn. Broader navigation smoke automation is pending.
+
 ### Added: running workspace folder glow
 
 Folder glyphs glow green whenever a member session or catalogued child agent

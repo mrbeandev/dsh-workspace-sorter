@@ -17,7 +17,11 @@ export async function apply(ctx) {
     const time = Date.now() - age;
     const session = ctx.sessions.create(undefined, {
       meta: { cwd: workspace.path, createdAt: time },
-      seed: [{ type: 'user/message', seq: 0, time, surfaceOp: 'append', data: { id: `fixture-${name.toLowerCase()}`, role: 'user', source: { kind: 'user' }, content: [{ type: 'text', text: 'Synthetic offline sorter fixture' }] } }],
+      seed: [
+        { type: 'user/message', seq: 0, time, surfaceOp: 'append', data: { id: `fixture-${name.toLowerCase()}`, role: 'user', source: { kind: 'user' }, content: [{ type: 'text', text: 'Synthetic offline sorter fixture' }] } },
+        { type: 'turn/start', seq: 1, time, data: { turn: 1 } },
+        { type: 'turn/end', seq: 2, time, data: { turn: 1, reason: { kind: 'interrupted' } } },
+      ],
     });
     await workspace.attachSession(session.id);
   }
