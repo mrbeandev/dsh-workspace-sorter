@@ -49,7 +49,7 @@ test('menu adds independent options, persists choice, and forwards native select
 test('guard fails without changing unrelated sidebar components', () => {
   const { plugin } = harness();
   const entry = { component: function OtherSidebar() {} };
-  assert.throws(() => plugin.apply({ slots: { entries: () => [entry] } }), /unsupported workspace sidebar/);
+  plugin.apply({ slots: { entries: () => [entry], subscribe: () => () => {} }, effect: fn => fn() });
   assert.equal(entry.component.name, 'OtherSidebar');
 });
 
@@ -59,7 +59,7 @@ test('wrapper preserves entry contract and restores original component on dispos
   const entry = { component: WorkspaceBrowser, store: {}, children: {}, inject: () => ({}), locale: 'workspace' };
   const store = entry.store;
   let dispose;
-  plugin.apply({ slots: { entries: () => [entry] }, effect: fn => { dispose = fn(); } });
+  plugin.apply({ slots: { entries: () => [entry], subscribe: () => () => {} }, effect: fn => { dispose = fn(); } });
   assert.notEqual(entry.component, WorkspaceBrowser);
   assert.equal(entry.store, store);
   const state = { items: [{ id: 'old', sessionIds: ['a'] }, { id: 'new', sessionIds: ['b'] }] };

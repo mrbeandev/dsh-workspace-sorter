@@ -1,6 +1,6 @@
 {
   "name": "dsh-workspace-sorter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Independent last-used workspace ordering in the DeepSeek Harness sidebar view-options menu.",
   "type": "module",
   "main": "index.mjs",
@@ -17,6 +17,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test test/*.test.mjs",
+    "test:e2e": "node scripts/e2e-gui.mjs",
     "check": "npm run build && npm test && npm pack --dry-run",
     "prepack": "npm run build && npm test",
     "prepublishOnly": "npm run check"

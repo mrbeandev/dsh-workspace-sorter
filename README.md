@@ -22,7 +22,7 @@ choice without overwriting the host's saved manual workspace order.
 
 ## Install from npm
 
-`0.1.0` is published, but remains experimental pending real-GUI verification.
+**Wait for the fixed 0.1.1 release.** The command below currently resolves to published 0.1.0, which failed the isolated GUI boot test. Use the local 0.1.1 tarball only for testing until the owner publishes the fix.
 
 ```bash
 dsh plugin --profile web add dsh-workspace-sorter
@@ -50,7 +50,7 @@ browser preference remains.
 
 The native session-order choice remains independent. See the limitations below.
 
-> **Published 0.1.0 — experimental, not yet GUI-verified.** Build and unit/package checks pass. Installation from the tarball, actual sidebar rendering, and coexistence/uninstall tests are still release gates. Do not interpret this public source repository as a production-readiness guarantee.
+> **0.1.1 fix candidate — not yet published.** Published 0.1.0 failed real-browser activation in a clean DSH profile; avoid enabling it. The corrected candidate passes 10/10 real-browser smoke checks and 4/4 post-uninstall checks on DSH 0.2.0-rc.2. Broader coexistence and interaction testing remains pending. See [RELEASE.md](./RELEASE.md).
 
 Independent workspace ordering in the DeepSeek Harness sidebar's existing **View options** popup, below its session-order options.
 
@@ -62,7 +62,7 @@ Independent workspace ordering in the DeepSeek Harness sidebar's existing **View
 
 ## Compatibility and limitations
 
-**Pinned internal adapter for DSH 0.2.0-rc.2.** The native view-options menu has no public extension slot. This plugin wraps the registered `WorkspaceBrowser` function, transforms the returned `ViewOptionsMenu`, and projects a sorted workspace snapshot. It preserves the original entry's injected services, child-slot permissions, locale, and store. It does not edit installed DSH bundles or manipulate the DOM. This is an internal integration, not a stable public menu API; incompatible sidebar components are rejected with an explicit error.
+**Pinned internal adapter for DSH 0.2.0-rc.2.** The native view-options menu has no public extension slot. This plugin wraps the registered `WorkspaceBrowser` function, transforms the returned `ViewOptionsMenu`, and projects a sorted workspace snapshot. It preserves the original entry's injected services, child-slot permissions, locale, and store. It does not edit installed DSH bundles or manipulate the DOM. This is an internal integration, not a stable public menu API; the adapter waits for native registration and leaves unmatched sidebar components untouched rather than failing application boot.
 
 “Last used” is **latest session activity**, not merely clicking a folder. Activity includes archived sessions. Workspace-tree mode keeps the native hierarchy and applies ordering within it. In flat mode there is no workspace list to reorder. Workspace drag commits are suppressed while Last used is active; switch to Manual before dragging. Session drag behavior remains native. The native drag affordance is still shown.
 

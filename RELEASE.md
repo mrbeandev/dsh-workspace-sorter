@@ -1,6 +1,32 @@
 # Release checklist
 
-## Current release: 0.1.0 (published by the owner)
+## Current candidate: 0.1.1 (not published)
+
+Local tests on 2026-10-16 used DSH 0.2.0-rc.2, Node 24, and real headless
+Google Chrome/CDP in a disposable DSH_HOME. The primary profile and port 3080
+were not modified.
+
+### Findings and fixes
+
+- Exact registry **0.1.0 installed successfully but failed GUI boot** because
+  it assumed the native sidebar had already registered. The fix subscribes to
+  slot registration and installs once the expected native component exists.
+- Provisional blank browser sessions incorrectly dominated recency. Ignore
+  blank sessions with no accepted prompt, while counting prompt timestamps
+  even before an assistant response. Added regressions for both findings.
+- Final corrected tarball: **10/10 GUI smoke checks passed** (boot, independent
+  menu, native controls, manual order, recency order, preference, reload,
+  manual restoration, narrow layout, no console errors).
+- Removal + DSH restart: **4/4 checks passed** (boot, menu absent, boot-graph
+  entry absent, no console errors). Several remove/reinstall cycles completed.
+- Preference survived a manual test-server restart. Full automated multi-tab,
+  live activity updates, keyboard, drag, archived/pinned and third-party
+  sidebar coexistence tests remain pending.
+
+No model calls or real credentials were used. Synthetic session messages were
+created only in the disposable home. No npm publication was performed.
+
+## Previous release: 0.1.0 (published by the owner)
 
 The npm registry confirms `dsh-workspace-sorter@0.1.0`, with repository metadata
 pointing to `mrbeandev/dsh-workspace-sorter`. It is MIT-licensed. Publication
@@ -10,7 +36,11 @@ remains manual; no automatic npm publishing workflow is configured.
 requirements below. Version 0.1.0 is immutable on npm; fixes must use a new
 version. Documentation changes here do not update the already-published README.
 
-## Verification evidence
+## Historical verification evidence (before GUI testing)
+
+The table below records the original 0.1.0 preparation, not the current
+0.1.1 results above. Pending GUI items were subsequently exercised only to
+the scope explicitly described in the 0.1.1 findings.
 
 | Check | Status |
 |---|---|

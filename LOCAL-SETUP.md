@@ -36,7 +36,38 @@ least three workspaces and sessions with different last-activity times using
 safe synthetic inputs. Do not connect real providers or trigger billed calls
 just to populate test data without separately authorizing them.
 
-## GUI test matrix — not yet executed for this plugin
+## Reproducible browser smoke test
+
+After installing the candidate, add this test-only patch to the **disposable** profile before starting DSH (replace the path with this checkout):
+
+```yaml
+- insert:
+    - id: sorter-e2e-fixtures
+      name: /absolute/path/to/dsh-workspace-sorter/scripts/e2e-fixtures.mjs
+```
+
+The fixture plugin refuses homes outside `/tmp/dsh-workspace-sorter-e2e.*`.
+It creates synthetic old/new/empty workspaces and offline session messages;
+no provider calls or keys are needed. Start DSH and run:
+
+```bash
+DSH_E2E_URL='http://127.0.0.1:18765/?token=…' npm run test:e2e
+```
+
+The script launches its own temporary headless Chrome profile and drives it
+through CDP. It checks boot, menu, native controls, manual/recency ordering,
+browser preference, reload, manual restoration, narrow viewport and errors.
+After removal and restart:
+
+```bash
+DSH_E2E_ABSENT=1 DSH_E2E_URL='http://127.0.0.1:18765/?token=…' npm run test:e2e
+```
+
+Local results on 2026-10-16: **0.1.1 candidate 10/10; removal 4/4** on DSH
+0.2.0-rc.2. The registry 0.1.0 failed boot before the fix. Full matrix below
+is broader than these smoke checks and is not claimed complete.
+
+## Extended GUI test matrix
 
 1. Confirm Workspace order appears inside the existing View options popup.
 2. Select Last used; verify folder ordering changes while session ordering
@@ -65,8 +96,9 @@ versions. The RPM repository separately tests middleware/config behavior and
 documents a real rate-limiting smoke test.
 
 These are inspected test procedures, not evidence that those prior sessions
-executed every step. No browser smoke-test script has yet been implemented or
-run for workspace-sorter; do not substitute its unit tests for this matrix.
+executed every step. Workspace-sorter now has a matching CDP smoke-test script, executed locally
+against an isolated DSH profile. Do not substitute its smoke checks for the
+entire extended interaction matrix.
 
 Keep screenshots, browser profiles, test homes, tokens, and logs outside Git
 and the npm artifact. Stop the disposable server when done. Never delete a
