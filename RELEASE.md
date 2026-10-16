@@ -1,6 +1,11 @@
 # Release checklist
 
-## Current candidate: 0.1.1 (not published)
+## Current candidate: 0.1.2 (not published)
+
+The owner reports 0.1.1 is now published. The running-workspace glow is prepared
+as 0.1.2; no npm publication is performed by this version bump. Test results
+below were obtained from the corresponding local candidate before this
+metadata-only bump.
 
 Local tests on 2026-10-16 used DSH 0.2.0-rc.2, Node 24, and real headless
 Google Chrome/CDP in a disposable DSH_HOME. The primary profile and port 3080
