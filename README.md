@@ -1,6 +1,56 @@
 # dsh-workspace-sorter
 
-> **Experimental candidate — not yet GUI-verified.** Build and unit/package checks pass. Installation from the tarball, actual sidebar rendering, and coexistence/uninstall tests are still release gates. Do not interpret this public source repository as a production-readiness guarantee.
+Independent **workspace-folder ordering** for DeepSeek Harness, with its own
+**Workspace order** section in the existing sidebar View options menu.
+
+[![npm version](https://img.shields.io/npm/v/dsh-workspace-sorter.svg)](https://www.npmjs.com/package/dsh-workspace-sorter)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![CI](https://github.com/mrbeandev/dsh-workspace-sorter/actions/workflows/check.yml/badge.svg)](https://github.com/mrbeandev/dsh-workspace-sorter/actions/workflows/check.yml)
+
+- **Source code:** [github.com/mrbeandev/dsh-workspace-sorter](https://github.com/mrbeandev/dsh-workspace-sorter)
+- **npm package:** [npmjs.com/package/dsh-workspace-sorter](https://www.npmjs.com/package/dsh-workspace-sorter)
+
+**Contents:** [Why this plugin exists](#why-this-plugin-exists) ·
+[Install](#install-from-npm) · [Compatibility](#compatibility-and-limitations) ·
+[Development](#build-and-test) · [Local setup](./LOCAL-SETUP.md) · [Release checklist](./RELEASE.md)
+
+## Why this plugin exists
+
+DSH's native **Order by → Last updated** orders sessions inside each workspace,
+not the workspace folders themselves. This plugin adds an independent ordering
+choice without overwriting the host's saved manual workspace order.
+
+## Install from npm
+
+`0.1.0` is published, but remains experimental pending real-GUI verification.
+
+```bash
+dsh plugin --profile web add dsh-workspace-sorter
+```
+
+Disable the older `dsh-workspace-sort` plugin if installed, finish active work,
+restart DSH when required, and refresh the actual DSH Web page. Then open
+**Workspaces → View options → Workspace order**.
+
+To remove:
+
+```bash
+dsh plugin --profile web remove dsh-workspace-sorter
+```
+
+Restart when required and refresh. No host order needs restoring. Only the
+browser preference remains.
+
+## The Workspace order menu
+
+| Option | Effect |
+|---|---|
+| **Manual workspace order** (default) | Displays the host's saved manual order. |
+| **Last used workspace** | Latest member-session activity first; empty workspaces last and ties in manual order. |
+
+The native session-order choice remains independent. See the limitations below.
+
+> **Published 0.1.0 — experimental, not yet GUI-verified.** Build and unit/package checks pass. Installation from the tarball, actual sidebar rendering, and coexistence/uninstall tests are still release gates. Do not interpret this public source repository as a production-readiness guarantee.
 
 Independent workspace ordering in the DeepSeek Harness sidebar's existing **View options** popup, below its session-order options.
 
